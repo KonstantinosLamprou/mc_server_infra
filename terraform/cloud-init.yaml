@@ -1,0 +1,17 @@
+#cloud-config
+package_update: true
+packages:
+  - docker.io
+  - docker-compose-v2
+
+write_files:
+  - path: /opt/minecraft/docker-compose.yml
+    encoding: b64
+    content: ${compose_b64}
+
+runcmd:
+  - iptables -I INPUT 1 -p tcp --dport 25565 -j ACCEPT
+  - iptables -I INPUT 1 -p udp --dport 19132 -j ACCEPT
+  - netfilter-persistent save || true
+  - systemctl enable --now docker
+  - cd /opt/minecraft && docker compose up -d
