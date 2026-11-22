@@ -10,6 +10,7 @@ write_files:
     content: ${compose_b64}
 
 runcmd:
+  - iptables -I INPUT 1 -p tcp --dport 19132 -j ACCEPT
   - iptables -I INPUT 1 -p tcp --dport 25565 -j ACCEPT
   - iptables -I INPUT 1 -p udp --dport 19132 -j ACCEPT
   - netfilter-persistent save || true

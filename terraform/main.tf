@@ -107,6 +107,16 @@ resource "oci_core_security_list" "mc" {
       max = 19132
     }
   }
+
+  ingress_security_rules {
+    protocol    = "6" # TCP
+    source      = "0.0.0.0/0"
+    description = "Minecraft Bedrock Signaling (Geyser)"
+    tcp_options {
+      min = 19132
+      max = 19132
+    }
+  }
 }
 
 resource "oci_core_subnet" "public" {
